@@ -1277,39 +1277,66 @@ function renderComments(workId) {
 function initLiveViewers() {
   const countEl = document.getElementById('liveCount');
   if (!countEl) return;
-  let visitorId = Math.random().toString(36).slice(2);
-  let viewers = new Set([visitorId]);
 
-  function updateDisplay() { countEl.textContent = viewers.size; }
-
+  const visitorId = Math.random().toString(36).slice(2);
   const wsUrl = SB_URL.replace('https','wss') + '/realtime/v1/websocket?apikey=' + SB_KEY + '&vsn=1.0.0';
-  let ws, pingInterval;
+  let ws, pingInterval, ref = 1;
+  let presenceState = {};
+
+  function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj)); }
+
+  function updateDisplay() {
+    const count = Object.keys(presenceState).length;
+    countEl.textContent = Math.max(1, count);
+  }
 
   function connect() {
-    try {
-      ws = new WebSocket(wsUrl);
-      ws.onopen = () => {
-        ws.send(JSON.stringify({topic:'realtime:visitors',event:'phx_join',payload:{config:{presence:{key:visitorId}}},ref:'1'}));
-        pingInterval = setInterval(() => { if(ws.readyState===1) ws.send(JSON.stringify({topic:'phoenix',event:'heartbeat',payload:{},ref:'hb'})); }, 25000);
-      };
-      ws.onmessage = (e) => {
-        try {
-          const msg = JSON.parse(e.data);
-          if (msg.event === 'presence_state') {
-            viewers = new Set([visitorId, ...Object.keys(msg.payload || {})]);
-            updateDisplay();
-          } else if (msg.event === 'presence_diff') {
-            Object.keys(msg.payload?.joins || {}).forEach(k => viewers.add(k));
-            Object.keys(msg.payload?.leaves || {}).forEach(k => { if(k!==visitorId) viewers.delete(k); });
-            updateDisplay();
-          }
-        } catch {}
-      };
-      ws.onclose = () => { clearInterval(pingInterval); setTimeout(connect, 4000); };
-    } catch { countEl.textContent = '1'; }
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      // 1. join the channel
+      send({ topic: 'realtime:public', event: 'phx_join', payload: {
+        config: { presence: { key: visitorId }, broadcast: { self: true } }
+      }, ref: String(ref++) });
+
+      // 2. heartbeat every 25s
+      pingInterval = setInterval(() => {
+        send({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: String(ref++) });
+      }, 25000);
+
+      // 3. announce presence after short delay
+      setTimeout(() => {
+        send({ topic: 'realtime:public', event: 'presence', payload: {
+          type: 'presence', event: 'track', payload: { online_at: new Date().toISOString() }
+        }, ref: String(ref++) });
+      }, 500);
+    };
+
+    ws.onmessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data);
+        if (msg.event === 'presence_state') {
+          presenceState = msg.payload || {};
+          updateDisplay();
+        } else if (msg.event === 'presence_diff') {
+          Object.assign(presenceState, msg.payload?.joins || {});
+          Object.keys(msg.payload?.leaves || {}).forEach(k => delete presenceState[k]);
+          updateDisplay();
+        }
+      } catch {}
+    };
+
+    ws.onclose = () => {
+      clearInterval(pingInterval);
+      setTimeout(connect, 3000);
+    };
   }
+
   connect();
-  window.addEventListener('beforeunload', () => ws && ws.close());
+  window.addEventListener('beforeunload', () => {
+    send({ topic: 'realtime:public', event: 'phx_leave', payload: {}, ref: String(ref++) });
+    ws && ws.close();
+  });
 }
 
 // ══ INIT ══
