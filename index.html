@@ -293,13 +293,104 @@ footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(
 .empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px;}
 .empty-state .empty-icon{font-size:40px;margin-bottom:12px;}
 /* RESPONSIVE */
+/* LIVE VIEWERS */
+.live-viewers{display:inline-flex;align-items:center;gap:7px;background:rgba(126,200,255,.07);border:1px solid rgba(126,200,255,.15);border-radius:20px;padding:5px 12px 5px 8px;font-size:12px;font-weight:500;color:var(--accent3);cursor:default;user-select:none;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;animation:livePulse 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+@media(max-width:768px){.live-viewers{display:none;}}
+/* HAMBURGER */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;padding:8px;transition:var(--tr);}
+.nav-hamburger span{display:block;width:100%;height:1.5px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s;}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+/* MOBILE DRAWER */
+.mobile-nav-drawer{display:none;position:fixed;top:56px;left:0;right:0;z-index:99;background:rgba(4,6,14,.97);backdrop-filter:blur(28px);border-bottom:1px solid var(--border);padding:12px 0 20px;transform:translateY(-8px);opacity:0;transition:transform .25s var(--ease),opacity .25s;}
+.mobile-nav-drawer.open{transform:translateY(0);opacity:1;}
+.mobile-nav-drawer ul{list-style:none;display:flex;flex-direction:column;}
+.mobile-nav-drawer ul li a{display:block;padding:14px 24px;font-size:15px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:color .2s,padding-left .2s;}
+.mobile-nav-drawer ul li a:hover{color:var(--accent);padding-left:32px;}
+@media(max-width:768px){.nav-hamburger{display:flex;}}
+@media(max-width:1024px){
+  .section{padding:80px 32px;}
+  .hero{padding-left:32px;padding-right:32px;}
+  .works-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}
+  .about-layout{gap:48px;}
+  .work-detail{padding:100px 32px 80px;}
+}
+
+/* ── MOBILE (max 768px) ── */
 @media(max-width:768px){
-  nav{padding:0 20px;}.hero{padding-left:20px;padding-right:20px;}.section{padding:60px 20px;}
-  .about-layout,.settings-grid,.form-row{grid-template-columns:1fr;}
-  .admin-layout{grid-template-columns:1fr;}.admin-sidebar{border-right:none;border-bottom:1px solid var(--border);padding-right:0;}
-  .admin-menu{flex-direction:row;flex-wrap:wrap;}.hero-moon{display:none;}
+  /* cursor */
+  body{cursor:auto;}
+  .cursor-dot,.cursor-ring,.cursor-trail{display:none;}
+
+  /* nav */
+  nav{padding:0 20px;height:56px;}
+  .nav-center{display:none;}
+  .nav-mobile-menu{display:flex;}
+
+  /* hero */
+  .hero{padding:80px 24px 60px;min-height:100svh;align-items:center;text-align:center;}
+  .hero-moon-placeholder{display:none;}
+  .hero-bg-text{font-size:28vw;right:-20px;opacity:.4;}
+  .hero-name{font-size:clamp(48px,14vw,72px);}
+  .hero-desc{font-size:15px;max-width:100%;}
+  .hero-cta{flex-direction:column;width:100%;gap:12px;}
+  .hero-cta .btn-primary,.hero-cta .btn-ghost{width:100%;padding:16px;}
+  .hero-scroll-hint{display:none;}
+
+  /* sections */
+  .section{padding:56px 20px;}
+  .section-header{margin-bottom:36px;}
+
+  /* works grid — single column on phone */
+  .works-grid{grid-template-columns:1fr;gap:1px;}
+  .work-card{aspect-ratio:3/2;}
+  .work-arrow{opacity:1;transform:translateY(0);}
+  .work-progress-label{opacity:1;}
+
+  /* work detail */
+  .work-detail{padding:80px 20px 60px;}
+  .work-detail h1{font-size:clamp(36px,10vw,56px);}
+
+  /* about */
+  .about-layout{grid-template-columns:1fr;gap:40px;padding-top:60px;}
+  .about-text h1{font-size:clamp(40px,11vw,64px);}
+
+  /* contact */
+  .contact-layout{padding-top:80px;}
+  .contact-layout h1{font-size:clamp(44px,13vw,72px);}
+  .contact-link{font-size:15px;}
+
+  /* forms */
+  .form-row{grid-template-columns:1fr;}
+  .settings-grid{grid-template-columns:1fr;}
+
+  /* admin */
+  .admin-layout{grid-template-columns:1fr;}
+  .admin-sidebar{border-right:none;border-bottom:1px solid var(--border);padding-right:0;}
+  .admin-menu{flex-direction:row;flex-wrap:wrap;}
+
+  /* footer */
   footer{flex-direction:column;gap:12px;text-align:center;}
-  body{cursor:auto;}.cursor-dot,.cursor-ring{display:none;}
+
+  /* private/gate pages */
+  .private-gate{padding:24px;}
+  .gate-box{padding:36px 24px;}
+
+  /* buttons full width in modals */
+  .modal-box{margin:16px;padding:28px 20px;}
+
+  /* comments */
+  .comment-form-row{flex-direction:column;}
+}
+
+/* ── SMALL PHONES (max 390px) ── */
+@media(max-width:390px){
+  .hero-name{font-size:clamp(40px,13vw,56px);}
+  .section{padding:48px 16px;}
+  .work-detail{padding:72px 16px 48px;}
 }
 </style>
 </head>
@@ -394,8 +485,20 @@ footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(
       <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
     </ul>
   </div>
-  <button class="nav-secret-btn" onclick="handleSecretBtnClick()">⬡</button>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="live-viewers"><div class="live-dot"></div><span id="liveCount">1</span> online</div>
+    <button class="nav-secret-btn" onclick="handleSecretBtnClick()">⬡</button>
+    <button class="nav-hamburger nav-mobile-menu" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </nav>
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <ul>
+    <li><a onclick="showPage('home');toggleMobileNav()">Home</a></li>
+    <li><a onclick="showPage('works');toggleMobileNav()">Works</a></li>
+    <li><a onclick="showPage('about');toggleMobileNav()">About</a></li>
+    <li><a onclick="showPage('contact');toggleMobileNav()">Contact</a></li>
+  </ul>
+</div>
 
 <!-- HOME -->
 <div class="page active" id="page-home">
@@ -702,12 +805,79 @@ footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(
 <div class="toast" id="toast"></div>
 
 <script>
+// ══ SUPABASE ══
+const SB_URL = 'https://myoetvoxapyedxvaerpp.supabase.co';
+const SB_KEY = 'sb_publishable_YF12URoEbMYUFtH65vzgwQ_eVI-M6Uh';
+
+async function sbGet(table) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?select=*`, {
+    headers: {'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`}
+  });
+  return r.ok ? r.json() : [];
+}
+async function sbUpsert(table, row) {
+  await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates'},
+    body: JSON.stringify(row)
+  });
+}
+async function sbDelete(table, id) {
+  await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: {'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`}
+  });
+}
+
 // ══ STATE ══
-const PASS_KEY='sunnylii_adminpass';
-let ADMIN_PASS=localStorage.getItem(PASS_KEY)||'11116811.Ru';
-let state=JSON.parse(localStorage.getItem('sunnyPortfolio')||'null')||{works:[],users:[],messages:[],settings:{bio1:"I'm a designer with a taste for the experimental — I love building things that blur the line between visual craft and interactive experience.",bio2:"Currently exploring the space between design systems and creative development, always chasing that perfect balance of form and function.",email:'hello@sunnylii.com',instagram:'',behance:'',linkedin:'',availability:'Open to work',location:'Portugal',skills:'UI/UX Design, Brand Identity, Motion Design, Creative Dev, Typography, Art Direction',contactSubtitle:"I'm always open to new projects, collaborations, or just a good conversation about design."}};
-if(!state.messages)state.messages=[];
-function save(){localStorage.setItem('sunnyPortfolio',JSON.stringify(state));}
+const PASS_KEY = 'sunnylii_adminpass';
+let ADMIN_PASS = localStorage.getItem(PASS_KEY) || '11116811.Ru';
+const DEFAULT_SETTINGS = {
+  bio1: "I'm a designer with a taste for the experimental — I love building things that blur the line between visual craft and interactive experience.",
+  bio2: "Currently exploring the space between design systems and creative development, always chasing that perfect balance of form and function.",
+  email: 'hello@sunnylii.com', instagram: '', behance: '', linkedin: '',
+  availability: 'Open to work', location: 'Portugal',
+  skills: 'UI/UX Design, Brand Identity, Motion Design, Creative Dev, Typography, Art Direction',
+  contactSubtitle: "I'm always open to new projects, collaborations, or just a good conversation about design."
+};
+let state = { works: [], users: [], messages: [], settings: {...DEFAULT_SETTINGS}, comments: {} };
+
+async function loadStateFromSupabase() {
+  try {
+    const [works, settings, messages, users] = await Promise.all([
+      sbGet('works'), sbGet('settings'), sbGet('messages'), sbGet('users')
+    ]);
+    state.works = works.map(r => r.data).sort((a,b) => (b.pinned==='yes'?1:0)-(a.pinned==='yes'?1:0));
+    state.messages = messages.map(r => r.data).sort((a,b) => new Date(b.date)-new Date(a.date));
+    state.users = users.map(r => r.data);
+    // merge settings
+    settings.forEach(r => { state.settings[r.key] = r.value; });
+    // load comments per work
+    state.comments = {};
+    for (const w of state.works) {
+      const rows = await sbGet(`comments?work_id=eq.${w.id}&order=created_at.desc`);
+      state.comments[w.id] = rows.map(r => r.data);
+    }
+  } catch(e) { console.warn('Supabase load error:', e); }
+}
+
+async function save() {
+  // no-op: individual save functions handle their own upserts
+}
+
+async function saveWorkToSB(w) {
+  await sbUpsert('works', { id: w.id, data: w, updated_at: new Date().toISOString() });
+}
+async function deleteWorkFromSB(id) { await sbDelete('works', id); }
+async function saveSettingToSB(key, value) { await sbUpsert('settings', { key, value }); }
+async function saveMessageToSB(m) { await sbUpsert('messages', { id: m.id, data: m, created_at: m.date }); }
+async function deleteMessageFromSB(id) { await sbDelete('messages', id); }
+async function saveUserToSB(u) { await sbUpsert('users', { id: u.id, data: u }); }
+async function deleteUserFromSB(id) { await sbDelete('users', id); }
+async function saveCommentToSB(workId, c) {
+  await sbUpsert('comments', { id: c.id, work_id: workId, data: c, created_at: c.date });
+}
 
 let curPage='home',prevPage='home',privateIn=false,adminIn=false,secretSeq=[];
 
@@ -716,6 +886,11 @@ function showPage(p){
   const cur=document.querySelector('.page.active');
   if(cur){cur.classList.add('leaving');setTimeout(()=>cur.classList.remove('leaving'),250);cur.classList.remove('active');}
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  // close mobile drawer if open
+  const drawer=document.getElementById('mobileNavDrawer');
+  const hbtn=document.getElementById('navHamburger');
+  if(drawer){drawer.classList.remove('open');drawer.style.display='none';}
+  if(hbtn)hbtn.classList.remove('open');
   prevPage=curPage;curPage=p;
   setTimeout(()=>{
     const el=document.getElementById('page-'+p);if(el)el.classList.add('active');
@@ -732,6 +907,14 @@ function showPage(p){
 }
 function goHome(){showPage('home');}
 function goBack(){showPage(prevPage==='work-detail'?'works':prevPage);}
+function toggleMobileNav(){
+  const drawer=document.getElementById('mobileNavDrawer');
+  const btn=document.getElementById('navHamburger');
+  const open=drawer.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  drawer.style.display=open?'block':'none';
+  if(open)requestAnimationFrame(()=>drawer.classList.add('open'));
+}
 
 // ══ SECRET DOTS ══
 function secretTap(i){
@@ -822,7 +1005,8 @@ function saveWork(){
   };
   if(eid){const i=state.works.findIndex(x=>x.id===eid);if(i>-1)state.works[i]=w;}
   else state.works.unshift(w);
-  save();showToast(eid?'Work updated!':'Work added!','success');clearWorkForm();adminTab('works');
+  saveWorkToSB(w).then(()=>showToast(eid?'Work updated!':'Work added!','success'));
+  clearWorkForm();adminTab('works');renderAdminWorks();renderFeatured();renderWorks();
 }
 function clearWorkForm(){
   ['wTitle','wTag','wYear','wShortDesc','wDesc','wImage','wColor','wChangelog'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
@@ -850,7 +1034,7 @@ function editWork(id){
   document.getElementById('addWorkTitle').textContent='Edit Work';document.getElementById('saveWorkBtn').textContent='Update Work →';
   adminTab('add-work');document.getElementById('atab-add-work').classList.add('active');
 }
-function deleteWork(id){state.works=state.works.filter(w=>w.id!==id);save();renderAdminWorks();showToast('Work deleted.','success');}
+function deleteWork(id){state.works=state.works.filter(w=>w.id!==id);deleteWorkFromSB(id).then(()=>showToast('Work deleted.','success'));renderAdminWorks();}
 
 function renderAdminWorks(){
   const list=document.getElementById('adminWorksList');
@@ -907,23 +1091,25 @@ function addUser(){
   if(!name||!username||!password){showToast('Please fill all fields.','error');return;}
   if(state.users.find(u=>u.username===username)){showToast('Username already exists.','error');return;}
   state.users.push({id:Date.now().toString(),name,username,password});
-  save();closeModal('addUserModal');renderAdminUsers();showToast(`User ${name} added!`,'success');
+  saveUserToSB({id:Date.now().toString(),name,username,password});closeModal('addUserModal');renderAdminUsers();showToast(`User ${name} added!`,'success');
 }
-function deleteUser(id){state.users=state.users.filter(u=>u.id!==id);save();renderAdminUsers();showToast('User removed.','success');}
+function deleteUser(id){state.users=state.users.filter(u=>u.id!==id);deleteUserFromSB(id).then(()=>showToast('User removed.','success'));renderAdminUsers();}
 function renderAdminUsers(){const g=document.getElementById('usersGrid');if(!state.users.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><p>No users yet.</p></div>';return;}g.innerHTML=state.users.map(u=>`<div class="user-card"><div class="user-avatar">${u.name[0].toUpperCase()}</div><div class="user-name">${u.name}</div><div class="user-meta">@${u.username}</div><div><button class="btn-icon" onclick="deleteUser('${u.id}')" style="width:auto;padding:0 12px;font-size:11px;">Remove</button></div></div>`).join('');}
 
 // ══ INBOX ══
 function sendMessage(){
   const name=document.getElementById('msgName').value.trim(),email=document.getElementById('msgEmail').value.trim(),body=document.getElementById('msgBody').value.trim();
   if(!name||!body){showToast('Please fill in name and message.','error');return;}
-  state.messages.unshift({id:Date.now().toString(),name,email,body,date:new Date().toISOString(),read:false});
-  save();['msgName','msgEmail','msgBody'].forEach(id=>document.getElementById(id).value='');
+  const msg={id:Date.now().toString(),name,email,body,date:new Date().toISOString(),read:false};
+  state.messages.unshift(msg);
+  saveMessageToSB(msg);
+  ['msgName','msgEmail','msgBody'].forEach(id=>document.getElementById(id).value='');
   showToast('Message sent! ✦','success');
 }
 function renderInbox(){const l=document.getElementById('inboxList');if(!state.messages.length){l.innerHTML='<div class="empty-state"><p>No messages yet.</p></div>';return;}l.innerHTML=state.messages.map(m=>`<div class="inbox-item ${m.read?'':'unread'}" onclick="markRead('${m.id}')"><div class="inbox-sender">${m.name}${!m.read?' <span class="inbox-badge">New</span>':''}</div><div class="inbox-email">${m.email||'No email'}</div><div class="inbox-body">${m.body}</div><div class="inbox-time">${new Date(m.date).toLocaleString()}</div></div>`).join('');}
-function markRead(id){const m=state.messages.find(x=>x.id===id);if(m){m.read=true;save();renderInbox();updateInboxBadge();}}
-function markAllRead(){state.messages.forEach(m=>m.read=true);save();renderInbox();updateInboxBadge();showToast('All read.','success');}
-function clearInbox(){state.messages=[];save();renderInbox();updateInboxBadge();showToast('Inbox cleared.','success');}
+function markRead(id){const m=state.messages.find(x=>x.id===id);if(m){m.read=true;saveMessageToSB(m);renderInbox();updateInboxBadge();}}
+function markAllRead(){state.messages.forEach(m=>{m.read=true;saveMessageToSB(m);});renderInbox();updateInboxBadge();showToast('All read.','success');}
+async function clearInbox(){for(const m of state.messages)await deleteMessageFromSB(m.id);state.messages=[];renderInbox();updateInboxBadge();showToast('Inbox cleared.','success');}
 function updateInboxBadge(){const n=state.messages.filter(m=>!m.read).length;const b=document.getElementById('inboxBadge');if(n>0){b.textContent=n;b.style.display='inline';}else b.style.display='none';}
 
 // ══ SETTINGS ══
@@ -933,8 +1119,9 @@ function loadSettings(){
   Object.entries(map).forEach(([id,key])=>{const e=document.getElementById(id);if(e)e.value=s[key]||'';});
 }
 function saveSettings(){
-  state.settings={...state.settings,bio1:document.getElementById('sBio1').value,bio2:document.getElementById('sBio2').value,email:document.getElementById('sEmail').value,instagram:document.getElementById('sInstagram').value,behance:document.getElementById('sBehance').value,linkedin:document.getElementById('sLinkedIn').value,availability:document.getElementById('sAvail').value,location:document.getElementById('sLocation').value,skills:document.getElementById('sSkills').value};
-  save();showToast('Settings saved!','success');
+  const keys={sBio1:'bio1',sBio2:'bio2',sEmail:'email',sInstagram:'instagram',sBehance:'behance',sLinkedIn:'linkedin',sAvail:'availability',sLocation:'location',sSkills:'skills'};
+  Object.entries(keys).forEach(([id,key])=>{state.settings[key]=document.getElementById(id).value;saveSettingToSB(key,state.settings[key]);});
+  showToast('Settings saved!','success');
 }
 function changePassword(){
   const cur=document.getElementById('pwCurrent').value,nw=document.getElementById('pwNew').value,conf=document.getElementById('pwConfirm').value;
@@ -942,7 +1129,7 @@ function changePassword(){
   if(cur!==ADMIN_PASS){err.textContent='Current password is wrong.';return;}
   if(nw.length<4){err.textContent='Min 4 characters.';return;}
   if(nw!==conf){err.textContent='Passwords do not match.';return;}
-  ADMIN_PASS=nw;localStorage.setItem(PASS_KEY,nw);err.textContent='';
+  ADMIN_PASS=nw;localStorage.setItem(PASS_KEY,nw);saveSettingToSB('adminPass',nw);err.textContent='';
   ['pwCurrent','pwNew','pwConfirm'].forEach(id=>document.getElementById(id).value='');
   showToast('Password changed! ✦','success');
 }
@@ -1053,8 +1240,9 @@ function postComment() {
   if (!currentWorkId) return;
   if (!state.comments) state.comments = {};
   if (!state.comments[currentWorkId]) state.comments[currentWorkId] = [];
-  state.comments[currentWorkId].unshift({ id: Date.now().toString(), name, handle, body, date: new Date().toISOString() });
-  save();
+  const nc = { id: Date.now().toString(), name, handle, body, date: new Date().toISOString() };
+  state.comments[currentWorkId].unshift(nc);
+  saveCommentToSB(currentWorkId, nc);
   document.getElementById('commentName').value = '';
   document.getElementById('commentHandle').value = '';
   document.getElementById('commentBody').value = '';
@@ -1085,9 +1273,53 @@ function renderComments(workId) {
     </div>`).join('');
 }
 
+// ══ LIVE VIEWERS (Supabase Realtime Presence) ══
+function initLiveViewers() {
+  const countEl = document.getElementById('liveCount');
+  if (!countEl) return;
+  let visitorId = Math.random().toString(36).slice(2);
+  let viewers = new Set([visitorId]);
+
+  function updateDisplay() { countEl.textContent = viewers.size; }
+
+  const wsUrl = SB_URL.replace('https','wss') + '/realtime/v1/websocket?apikey=' + SB_KEY + '&vsn=1.0.0';
+  let ws, pingInterval;
+
+  function connect() {
+    try {
+      ws = new WebSocket(wsUrl);
+      ws.onopen = () => {
+        ws.send(JSON.stringify({topic:'realtime:visitors',event:'phx_join',payload:{config:{presence:{key:visitorId}}},ref:'1'}));
+        pingInterval = setInterval(() => { if(ws.readyState===1) ws.send(JSON.stringify({topic:'phoenix',event:'heartbeat',payload:{},ref:'hb'})); }, 25000);
+      };
+      ws.onmessage = (e) => {
+        try {
+          const msg = JSON.parse(e.data);
+          if (msg.event === 'presence_state') {
+            viewers = new Set([visitorId, ...Object.keys(msg.payload || {})]);
+            updateDisplay();
+          } else if (msg.event === 'presence_diff') {
+            Object.keys(msg.payload?.joins || {}).forEach(k => viewers.add(k));
+            Object.keys(msg.payload?.leaves || {}).forEach(k => { if(k!==visitorId) viewers.delete(k); });
+            updateDisplay();
+          }
+        } catch {}
+      };
+      ws.onclose = () => { clearInterval(pingInterval); setTimeout(connect, 4000); };
+    } catch { countEl.textContent = '1'; }
+  }
+  connect();
+  window.addEventListener('beforeunload', () => ws && ws.close());
+}
+
 // ══ INIT ══
-renderFeatured();renderNowPlaying();initMarquee();initDoodles();initCursor();initCardTilt();updateInboxBadge();
-document.getElementById('addUserModal').addEventListener('click',function(e){if(e.target===this)closeModal('addUserModal');});
+(async () => {
+  initMarquee(); initDoodles(); initCursor(); initCardTilt();
+  document.getElementById('addUserModal').addEventListener('click', function(e){ if(e.target===this) closeModal('addUserModal'); });
+  await loadStateFromSupabase();
+  renderFeatured(); renderNowPlaying(); updateInboxBadge();
+  initLiveViewers();
+})();
 </script>
 </body>
 </html>
